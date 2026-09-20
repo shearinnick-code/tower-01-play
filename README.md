@@ -4,7 +4,7 @@ A glass-themed tower defence. This repo holds **only the built game**: one
 self-contained HTML file, published by GitHub Pages so playtesters have a single
 link that is always the newest build.
 
-**Play it:** https://nickshearin.github.io/tower-01-play/
+**Play it:** https://shearinnick-code.github.io/tower-01-play/
 
 The source lives elsewhere and is not part of this repo.
 
