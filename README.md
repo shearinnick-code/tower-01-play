@@ -10,9 +10,9 @@ The source lives elsewhere and is not part of this repo.
 
 ## For playtesters
 
-Play until you win, lose, or get bored — then press **SAVE RUN** on the top edge
-of the board. It saves a small file of every decision you made, which is what
-the design work reads. You can press it at any point, not only at the end; if
+Play until you win, lose, or get bored — then press **SEND RUN** on the top edge
+of the board. It uploads a small record of every decision you made — which is what
+the design work reads — and saves you a copy too. You can press it at any point, not only at the end; if
 something strange happens on wave 23, save it right then.
 
 Nothing personal is recorded. The file contains the map you played, where you
