@@ -6,7 +6,9 @@
     <title>TOWER-01</title>
     <style>
       html, body { margin: 0; padding: 0; background: #0b0f14; overflow: hidden; }
-      #game { width: 100vw; height: calc(100vh - 18px); }
+      /* The build stamp moved into the canvas chrome strip on 29 SEP 2026, so
+         the game gets the whole viewport back. See layout.buildStampRect. */
+      #game { width: 100vw; height: 100vh; }
       /*
        * The build stamp, which the Pages page lost when it stopped being the
        * single-file artifact.
@@ -20,19 +22,6 @@
        *
        * Eighteen pixels at the bottom, dim, out of the way of the board.
        */
-      #build {
-        position: fixed;
-        left: 0; right: 0; bottom: 0;
-        height: 18px;
-        line-height: 18px;
-        text-align: center;
-        font: 11px "Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
-        letter-spacing: 0.12em;
-        color: #3d5568;
-        background: #0b0f14;
-        user-select: text;
-        pointer-events: auto;
-      }
       canvas { display: block; }
       /* Matches the control the shipped artifact carries, so the dev page and
          the build behave the same way. */
@@ -56,11 +45,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="./assets/index-DyLO0WdV.js"></script>
+    <script type="module" crossorigin src="./assets/index-4x_0F8ru.js"></script>
   </head>
   <body>
     <div id="game"></div>
-    <div id="build">TOWER-01</div>
     <button id="full" type="button" hidden>Full screen</button>
     <script>
       (function () {
