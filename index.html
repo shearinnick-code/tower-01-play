@@ -3,6 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      THE IPHONE HAS NO FULL SCREEN BUTTON, AND CANNOT HAVE ONE.
+
+      Nick, 15 NOV 2026: "can you troubleshoot the full screen button not
+      showing up on iPhone with Safari?" It is not a bug in the button. Safari
+      on iPhone does not implement the Fullscreen API on ordinary elements at
+      all - only a <video> can go full screen there - so the script below
+      correctly hides a control that could not work. iPad is different, and was
+      a real bug: see the script.
+
+      What DOES give an iPhone the whole screen is Add to Home Screen, and
+      these two lines are what make that worth doing. Launched from the home
+      screen the game runs with no Safari chrome at all, which is more screen
+      than the button would have won on any platform.
+
+      Deliberately NOT adding `viewport-fit=cover`. It would let the canvas run
+      under the notch, and this project has already lost a day to an iOS crash
+      caused by a canvas sized from the layout rather than the viewport. That
+      wants its own change, with the safe-area insets handled.
+    -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="TOWER-01" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <title>TOWER-01</title>
     <style>
       html, body { margin: 0; padding: 0; background: #0b0f14; overflow: hidden; }
@@ -45,7 +69,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="./assets/index-Chmqn1a8.js"></script>
+    <script type="module" crossorigin src="./assets/index-CPYH8zZc.js"></script>
   </head>
   <body>
     <div id="game"></div>
@@ -54,16 +78,32 @@
       (function () {
         var btn = document.getElementById('full')
         var el = document.documentElement
-        if (!el.requestFullscreen) return
+        /*
+         * THE PREFIXED NAME TOO, which is the actual bug here (15 NOV 2026).
+         *
+         * Safari only dropped the webkit prefix on this in version 16.4. An
+         * iPad on anything older has `webkitRequestFullscreen` and not
+         * `requestFullscreen`, so the unprefixed-only check above hid the
+         * button on a device that could have used it. iPhone has neither and
+         * is correctly left without the control.
+         */
+        var ask = el.requestFullscreen || el.webkitRequestFullscreen
+        var drop = document.exitFullscreen || document.webkitExitFullscreen
+        if (!ask || !drop) return
+        var isOn = function () {
+          return document.fullscreenElement || document.webkitFullscreenElement
+        }
         btn.hidden = false
         btn.addEventListener('click', function () {
-          if (document.fullscreenElement) document.exitFullscreen()
-          else el.requestFullscreen()
+          if (isOn()) drop.call(document)
+          else ask.call(el)
         })
-        document.addEventListener('fullscreenchange', function () {
-          btn.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen'
+        var changed = function () {
+          btn.textContent = isOn() ? 'Exit full screen' : 'Full screen'
           setTimeout(function () { window.dispatchEvent(new Event('resize')) }, 60)
-        })
+        }
+        document.addEventListener('fullscreenchange', changed)
+        document.addEventListener('webkitfullscreenchange', changed)
       })()
     </script>
   </body>
